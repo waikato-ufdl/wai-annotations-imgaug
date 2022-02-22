@@ -1,5 +1,5 @@
 # wai-annotations-imgaug
-Stream processors for the wai.annotations conversion library for image augmentation.
+Image augmentation stream processors for the wai.annotations conversion library.
 
 ## Plugins
 ### HSL-GRAYSCALE
@@ -14,7 +14,7 @@ Turns RGB images into fake grayscale ones by converting them to HSL and then usi
     HSL-GRAYSCALE:
       Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels.
 
-      Domain(s): Image Object-Detection Domain, Image Segmentation Domain, Image Classification Domain
+      Domain(s): Image Classification Domain, Image Object-Detection Domain
 
       usage: hsl-grayscale [-f FACTOR]
 
@@ -36,9 +36,9 @@ Rotates images randomly within a range of degrees or by a specified degree. Spec
     ROTATE:
       Rotates images randomly within a range of degrees or by a specified degree. Specify seed value and force augmentation to be seeded to generate repeatable augmentations.
 
-      Domain(s): Image Object-Detection Domain, Image Classification Domain, Image Segmentation Domain
+      Domain(s): Image Classification Domain, Image Object-Detection Domain
 
-      usage: rotate-image [-f FROM_DEGREE] [-s SEED] [-a] [-T THRESHOLD] [-t TO_DEGREE]
+      usage: rotate [-f FROM_DEGREE] [-s SEED] [-a] [-T THRESHOLD] [-t TO_DEGREE]
 
       optional arguments:
         -f FROM_DEGREE, --from-degree FROM_DEGREE

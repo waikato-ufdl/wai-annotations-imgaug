@@ -18,11 +18,18 @@ class HSLGrayScaleISPSpecifier(ProcessorStageSpecifier):
             cls,
             input_domain: Type[DomainSpecifier]
     ) -> Type[DomainSpecifier]:
-        from wai.annotations.domain.image import Image
-        if input_domain.data_type() is Image:
+        from wai.annotations.domain.image.classification import ImageClassificationDomainSpecifier
+        from wai.annotations.domain.image.object_detection import ImageObjectDetectionDomainSpecifier
+        if input_domain is ImageClassificationDomainSpecifier:
+            return input_domain
+        elif input_domain is ImageObjectDetectionDomainSpecifier:
             return input_domain
         else:
-            raise Exception(f"HSLGrayScale only handles image-based domains")
+            raise Exception(
+                f"HSLGrayScale only handles the following domains: "
+                f"{ImageClassificationDomainSpecifier.name()}, "
+                f"{ImageObjectDetectionDomainSpecifier.name()}"
+            )
 
     @classmethod
     def components(cls) -> Tuple[Type[ProcessorComponent]]:
