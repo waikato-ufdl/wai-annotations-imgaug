@@ -7,7 +7,7 @@ from wai.annotations.core.specifier import ProcessorStageSpecifier
 
 class HSLGrayScaleISPSpecifier(ProcessorStageSpecifier):
     """
-    Specifies the hsl-grayscale conversion.
+    Specifies the hsl-grayscale ISP.
     """
     @classmethod
     def description(cls) -> str:
@@ -22,7 +22,7 @@ class HSLGrayScaleISPSpecifier(ProcessorStageSpecifier):
         if input_domain.data_type() is Image:
             return input_domain
         else:
-            raise Exception(f"HSLGrayScale only handles the image-based domains")
+            raise Exception(f"HSLGrayScale only handles image-based domains")
 
     @classmethod
     def components(cls) -> Tuple[Type[ProcessorComponent]]:
