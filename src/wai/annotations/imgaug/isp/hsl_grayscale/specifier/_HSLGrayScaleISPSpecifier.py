@@ -26,5 +26,5 @@ class HSLGrayScaleISPSpecifier(ProcessorStageSpecifier):
 
     @classmethod
     def components(cls) -> Tuple[Type[ProcessorComponent]]:
-        from wai.annotations.processors.isp.hsl_grayscale.component import HSLGrayScale
+        from wai.annotations.imgaug.isp.hsl_grayscale.component import HSLGrayScale
         return HSLGrayScale,

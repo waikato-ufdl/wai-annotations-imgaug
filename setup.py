@@ -13,8 +13,8 @@ def _read(filename: str) -> str:
 
 
 setup(
-    name="wai.annotations.processors",
-    description="Various inline stream processors.",
+    name="wai.annotations.imgaug",
+    description="Various inline stream processors for image augmentation.",
     long_description=f"{_read('DESCRIPTION.rst')}\n"
                      f"{_read('CHANGES.rst')}",
     url="https://github.com/waikato-ufdl/wai-annotations-processors",
@@ -37,12 +37,14 @@ setup(
     author='Peter Reutemann',
     author_email='fracpete@waikato.ac.nz',
     install_requires=[
-        "wai.annotations.core>=0.1.1"
+        "wai.annotations.core>=0.1.1",
+        "imgaug>=0.4.0",
     ],
     entry_points={
         "wai.annotations.plugins": [
             # ISPs
-            "hsl-grayscale=wai.annotations.processors.isp.hsl_grayscale.specifier:HSLGrayScaleISPSpecifier",
+            "hsl-grayscale=wai.annotations.imgaug.isp.hsl_grayscale.specifier:HSLGrayScaleISPSpecifier",
+            "rotate=wai.annotations.imgaug.isp.rotate.specifier:RotateISPSpecifier",
         ]
     }
 )
