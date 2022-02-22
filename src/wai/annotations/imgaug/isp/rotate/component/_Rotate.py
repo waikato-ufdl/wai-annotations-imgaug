@@ -22,6 +22,15 @@ class Rotate(BaseImageAugmentation):
         help="the end of the degree range to use for rotating the images"
     )
 
+    def _can_augment(self):
+        """
+        Checks whether augmentation can take place.
+
+        :return: whether can augment
+        :rtype: bool
+        """
+        return (self.from_degree is not None) and (self.to_degree is not None)
+
     def _create_pipeline(self, aug_seed):
         """
         Creates and returns the augmentation pipeline.

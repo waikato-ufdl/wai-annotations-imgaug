@@ -3,33 +3,40 @@ import io
 import numpy as np
 import PIL
 
-from wai.common.cli.options import TypedOption, FlagOption
-
-from wai.annotations.core.component import ProcessorComponent
-from wai.annotations.core.stream import ThenFunction, DoneFunction
-from wai.annotations.core.stream.util import RequiresNoFinalisation
+from random import Random
+from wai.common.cli.options import TypedOption
 from wai.annotations.domain.image import ImageInstance, Image
+from wai.annotations.imgaug.isp.base.component import BaseISP
 
 
-class HSLGrayScale(
-    RequiresNoFinalisation,
-    ProcessorComponent[ImageInstance, ImageInstance]
-):
+class HSLGrayScale(BaseISP):
     """
     Stream processor which turns RGB images into fake grayscale ones.
     """
-    factor = TypedOption(
-        "-f", "--factor",
+
+    from_factor = TypedOption(
+        "-f", "--from-factor",
         type=float,
-        help="the factor to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)"
+        help="the start of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)"
     )
 
-    def process_element(
-            self,
-            element: ImageInstance,
-            then: ThenFunction[ImageInstance],
-            done: DoneFunction
-    ):
+    to_factor = TypedOption(
+        "-t", "--to-factor",
+        type=float,
+        help="the end of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)"
+    )
+
+    def _augment(self, element: ImageInstance, aug_seed: int):
+        """
+        Augments the image.
+
+        :param element: the image to augment
+        :type element: ImageInstance
+        :param aug_seed: the seed value to use, can be None
+        :type aug_seed: int
+        :return: the potentially updated image
+        :rtype: ImageInstance
+        """
         img_in = element.data
 
         # convert to HSL
@@ -38,9 +45,18 @@ class HSLGrayScale(
         img_hls = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2HLS)
         img_l = img_hls[:, :, 1]
 
+        # determine factor
+        factor = None
+        if (self.from_factor is not None) and (self.to_factor is not None):
+            if self.from_factor == self.to_factor:
+                factor = self.from_factor
+            else:
+                rnd = Random(aug_seed)
+                factor = rnd.random() * (self.to_factor - self.from_factor) + self.from_factor
+
         # adjust brightness?
-        if self.factor is not None:
-            img_l = img_l * self.factor
+        if factor is not None:
+            img_l = img_l * factor
             img_l = img_l.astype(np.uint8)
 
         # convert back to PIL bytes
@@ -50,5 +66,5 @@ class HSLGrayScale(
         img_out = Image(img_in.filename, pil_img_bytes.getvalue(), img_in.format, img_in.size)
 
         # new element
-        element_out = element.__class__(img_out, element.annotations)
-        then(element_out)
+        result = element.__class__(img_out, element.annotations)
+        return result

@@ -14,13 +14,21 @@ Turns RGB images into fake grayscale ones by converting them to HSL and then usi
     HSL-GRAYSCALE:
       Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels.
 
-      Domain(s): Image Classification Domain, Image Object-Detection Domain
+      Domain(s): Image Object-Detection Domain, Image Classification Domain
 
-      usage: hsl-grayscale [-f FACTOR]
+      usage: hsl-grayscale [-f FROM_FACTOR] [-s SEED] [-a] [-T THRESHOLD] [-t TO_FACTOR]
 
       optional arguments:
-        -f FACTOR, --factor FACTOR
-                        the factor to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)
+        -f FROM_FACTOR, --from-factor FROM_FACTOR
+                        the start of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)
+        -s SEED, --seed SEED
+                        the seed value to use for the random number generator; randomly seeded if not provided
+        -a, --seed-augmentation
+                        whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from 0 to 1000 for the augmentation.
+        -T THRESHOLD, --threshold THRESHOLD
+                        the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)
+        -t TO_FACTOR, --to-factor TO_FACTOR
+                        the end of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)
 ```
 
 

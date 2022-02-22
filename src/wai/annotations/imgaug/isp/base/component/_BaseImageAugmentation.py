@@ -6,44 +6,17 @@ from imgaug.augmentables.polys import Polygon, PolygonsOnImage
 import numpy as np
 import PIL
 
-from random import Random
-from wai.common.cli.options import TypedOption, FlagOption
 from wai.common.adams.imaging.locateobjects import LocatedObjects
 from wai.common.geometry import Polygon as WaiPolygon
 from wai.common.geometry import Point as WaiPoint
-from wai.annotations.core.component import ProcessorComponent
-from wai.annotations.core.stream import ThenFunction, DoneFunction
-from wai.annotations.core.stream.util import RequiresNoFinalisation
 from wai.annotations.domain.image import ImageInstance, Image
-
-MIN_RAND = 0
-MAX_RAND = 1000
+from wai.annotations.imgaug.isp.base.component import BaseISP
 
 
-class BaseImageAugmentation(
-    RequiresNoFinalisation,
-    ProcessorComponent[ImageInstance, ImageInstance]
-):
+class BaseImageAugmentation(BaseISP):
     """
     Base class for stream processors that augment images.
     """
-
-    seed = TypedOption(
-        "-s", "--seed",
-        type=int,
-        help="the seed value to use for the random number generator; randomly seeded if not provided"
-    )
-
-    seed_augmentation = FlagOption(
-        "-a", "--seed-augmentation",
-        help="whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from %d to %d for the augmentation." % (MIN_RAND, MAX_RAND)
-    )
-
-    threshold = TypedOption(
-        "-T", "--threshold",
-        type=float,
-        help="the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)"
-    )
 
     def _create_pipeline(self, aug_seed):
         """
@@ -56,33 +29,17 @@ class BaseImageAugmentation(
         """
         raise NotImplementedError()
 
-    def process_element(
-            self,
-            element: ImageInstance,
-            then: ThenFunction[ImageInstance],
-            done: DoneFunction
-    ):
-        # no rotation?
-        if (self.from_degree is None) or (self.to_degree is None):
-            then(element)
-            return
+    def _augment(self, element: ImageInstance, aug_seed: int):
+        """
+        Augments the image.
 
-        threshold = 0.0 if self.threshold is None else self.threshold
-        if (threshold < 0) or (threshold > 1):
-            raise Exception("Threshold must satisfy x >= 0 and x <= 1, supplied: %f" % threshold)
-
-        if not hasattr(self, "_random"):
-            self._random = Random(self.seed)
-
-        if self._random.random() < threshold:
-            then(element)
-            return
-
-        # configure pipeline
-        if self.seed_augmentation:
-            aug_seed = self._random.randint(MIN_RAND, MAX_RAND)
-        else:
-            aug_seed = None
+        :param element: the image to augment
+        :type element: ImageInstance
+        :param aug_seed: the seed value to use, can be None
+        :type aug_seed: int
+        :return: the potentially updated image
+        :rtype: ImageInstance
+        """
         seq = self._create_pipeline(aug_seed)
 
         img_in = element.data
@@ -175,5 +132,5 @@ class BaseImageAugmentation(
         img_out = Image(img_in.filename, pil_img_bytes.getvalue(), img_in.format, img_in.size)
 
         # new element
-        element_out = element.__class__(img_out, annotations_new)
-        then(element_out)
+        result = element.__class__(img_out, annotations_new)
+        return result
