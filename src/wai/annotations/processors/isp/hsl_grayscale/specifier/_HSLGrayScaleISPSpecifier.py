@@ -7,7 +7,7 @@ from wai.annotations.core.specifier import ProcessorStageSpecifier
 
 class HSLGrayScaleISPSpecifier(ProcessorStageSpecifier):
     """
-    Specifies the dimension-discarder.
+    Specifies the hsl-grayscale conversion.
     """
     @classmethod
     def description(cls) -> str:
