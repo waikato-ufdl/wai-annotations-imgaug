@@ -11,7 +11,7 @@ class HSLGrayScaleISPSpecifier(ProcessorStageSpecifier):
     """
     @classmethod
     def description(cls) -> str:
-        return "Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels."
+        return "Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels. The brightness can be influenced and varied even."
 
     @classmethod
     def domain_transfer_function(
