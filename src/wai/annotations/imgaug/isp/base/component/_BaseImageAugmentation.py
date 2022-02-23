@@ -129,7 +129,7 @@ class BaseImageAugmentation(BaseISP):
         img_pil = PIL.Image.fromarray(np.uint8(image_aug))
         pil_img_bytes = io.BytesIO()
         img_pil.save(pil_img_bytes, format=img_in.format.pil_format_string)
-        img_out = Image(img_in.filename, pil_img_bytes.getvalue(), img_in.format, img_in.size)
+        img_out = Image(img_in.filename, pil_img_bytes.getvalue(), img_in.format, img_pil.size)
 
         # new element
         result = element.__class__(img_out, annotations_new)

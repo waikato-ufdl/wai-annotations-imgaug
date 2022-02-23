@@ -2,8 +2,38 @@
 Image augmentation stream processors for the wai.annotations conversion library.
 
 ## Plugins
+### CROP
+Crops images.
+
+#### Domain(s):
+- **Image Classification Domain, Image Object-Detection Domain**
+
+#### Options:
+```
+    CROP:
+      Crops images.
+
+      Domain(s): Image Object-Detection Domain, Image Classification Domain
+
+      usage: crop [-f PERCENT_FROM] [-t PERCENT_TO] [-s SEED] [-a] [-T THRESHOLD] [-u]
+
+      optional arguments:
+        -f PERCENT_FROM, --from-percent PERCENT_FROM
+                        the minimum percent to crop from images
+        -t PERCENT_TO, --to-percent PERCENT_TO
+                        the maximum percent to crop from images
+        -s SEED, --seed SEED
+                        the seed value to use for the random number generator; randomly seeded if not provided
+        -a, --seed-augmentation
+                        whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from 0 to 1000 for the augmentation.
+        -T THRESHOLD, --threshold THRESHOLD
+                        the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)
+        -u, --update-size
+                        whether to update the image size after the crop operation or scale back to original size
+```
+
 ### FLIP
-Flips images randomly either left-to-right, up-to-down or both.
+Flips images either left-to-right, up-to-down or both.
 
 #### Domain(s):
 - **Image Classification Domain, Image Object-Detection Domain**
@@ -11,7 +41,7 @@ Flips images randomly either left-to-right, up-to-down or both.
 #### Options:
 ```
     FLIP:
-      Flips images randomly either left-to-right, up-to-down or both.
+      Flips images either left-to-right, up-to-down or both.
 
       Domain(s): Image Object-Detection Domain, Image Classification Domain
 

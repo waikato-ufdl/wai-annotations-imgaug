@@ -5,13 +5,13 @@ from wai.annotations.core.domain import DomainSpecifier
 from wai.annotations.core.specifier import ProcessorStageSpecifier
 
 
-class FlipISPSpecifier(ProcessorStageSpecifier):
+class CropISPSpecifier(ProcessorStageSpecifier):
     """
-    Specifies the rotate image ISP.
+    Specifies the crop image ISP.
     """
     @classmethod
     def description(cls) -> str:
-        return "Flips images either left-to-right, up-to-down or both."
+        return "Crops images."
 
     @classmethod
     def domain_transfer_function(
@@ -26,12 +26,12 @@ class FlipISPSpecifier(ProcessorStageSpecifier):
             return input_domain
         else:
             raise Exception(
-                f"Flip only handles the following domains: "
+                f"Crop only handles the following domains: "
                 f"{ImageClassificationDomainSpecifier.name()}, "
                 f"{ImageObjectDetectionDomainSpecifier.name()}"
             )
 
     @classmethod
     def components(cls) -> Tuple[Type[ProcessorComponent]]:
-        from wai.annotations.imgaug.isp.flip.component import Flip
-        return Flip,
+        from wai.annotations.imgaug.isp.crop.component import Crop
+        return Crop,

@@ -43,6 +43,7 @@ setup(
     entry_points={
         "wai.annotations.plugins": [
             # ISPs
+            "crop=wai.annotations.imgaug.isp.crop.specifier:CropISPSpecifier",
             "flip=wai.annotations.imgaug.isp.flip.specifier:FlipISPSpecifier",
             "gaussian-blur=wai.annotations.imgaug.isp.gaussian_blur.specifier:GaussianBlurISPSpecifier",
             "hsl-grayscale=wai.annotations.imgaug.isp.hsl_grayscale.specifier:HSLGrayScaleISPSpecifier",
