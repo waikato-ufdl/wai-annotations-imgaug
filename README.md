@@ -9,7 +9,6 @@ Flips images randomly either left-to-right, up-to-down or both.
 - **Image Classification Domain, Image Object-Detection Domain**
 
 #### Options:
-
 ```
     FLIP:
       Flips images randomly either left-to-right, up-to-down or both.
@@ -29,6 +28,34 @@ Flips images randomly either left-to-right, up-to-down or both.
                         the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)
 ```
 
+### GAUSSIAN-BLUR
+Applies gaussian blur to images.
+
+#### Domain(s):
+- **Image Classification Domain, Image Object-Detection Domain**
+
+#### Options:
+```
+    GAUSSIAN-BLUR:
+      Applies gaussian blur to images.
+
+      Domain(s): Image Classification Domain, Image Object-Detection Domain
+
+      usage: gaussian-blur [-s SEED] [-a] [-f SIGMA_FROM] [-t SIGMA_TO] [-T THRESHOLD]
+
+      optional arguments:
+        -s SEED, --seed SEED
+                        the seed value to use for the random number generator; randomly seeded if not provided
+        -a, --seed-augmentation
+                        whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from 0 to 1000 for the augmentation.
+        -f SIGMA_FROM, --from-sigma SIGMA_FROM
+                        the minimum sigma for the blur to apply to the images
+        -t SIGMA_TO, --to-sigma SIGMA_TO
+                        the maximum sigma for the blur to apply to the images
+        -T THRESHOLD, --threshold THRESHOLD
+                        the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)
+```
+
 
 ### HSL-GRAYSCALE
 Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels. The brightness can be influenced and varied even.
@@ -37,7 +64,6 @@ Turns RGB images into fake grayscale ones by converting them to HSL and then usi
 - **Image Classification Domain, Image Object-Detection Domain**
 
 #### Options:
-
 ```
     HSL-GRAYSCALE:
       Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels. The brightness can be influenced and varied even.
@@ -67,7 +93,6 @@ Rotates images randomly within a range of degrees or by a specified degree. Spec
 - **Image Classification Domain, Image Object-Detection Domain**
 
 #### Options:
-
 ```
     ROTATE:
       Rotates images randomly within a range of degrees or by a specified degree. Specify seed value and force augmentation to be seeded to generate repeatable augmentations.

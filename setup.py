@@ -44,6 +44,7 @@ setup(
         "wai.annotations.plugins": [
             # ISPs
             "flip=wai.annotations.imgaug.isp.flip.specifier:FlipISPSpecifier",
+            "gaussian-blur=wai.annotations.imgaug.isp.gaussian_blur.specifier:GaussianBlurISPSpecifier",
             "hsl-grayscale=wai.annotations.imgaug.isp.hsl_grayscale.specifier:HSLGrayScaleISPSpecifier",
             "rotate=wai.annotations.imgaug.isp.rotate.specifier:RotateISPSpecifier",
         ]
