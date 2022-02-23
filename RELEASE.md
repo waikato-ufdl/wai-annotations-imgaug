@@ -9,7 +9,7 @@ Preparation:
 Commands for releasing on pypi (requires twine >= 1.8.0):
 
 ```
-  rm -r dist src/wai.annotations.processors.egg-info
+  rm -r dist src/wai.annotations.imgaug.egg-info
   python setup.py clean sdist
   twine upload dist/*
 ```
@@ -21,6 +21,6 @@ Github
 Steps:
 * start new release (version: `vX.Y.Z`)
 * enter release notes, i.e., significant changes since last release
-* upload `wai.annotations.processors-X.Y.Z.tar.gz` previously generated with `setup.py`
+* upload `wai.annotations.imgaug-X.Y.Z.tar.gz` previously generated with `setup.py`
 * publish
 
