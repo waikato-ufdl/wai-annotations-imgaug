@@ -1,5 +1,6 @@
 # wai-annotations-imgaug
-Image augmentation stream processors for the wai.annotations conversion library.
+Image augmentation stream processors for the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) 
+conversion library.
 
 ## Plugins
 ### CROP
