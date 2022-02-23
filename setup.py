@@ -17,7 +17,7 @@ setup(
     description="Various inline stream processors for image augmentation.",
     long_description=f"{_read('DESCRIPTION.rst')}\n"
                      f"{_read('CHANGES.rst')}",
-    url="https://github.com/waikato-ufdl/wai-annotations-processors",
+    url="https://github.com/waikato-ufdl/wai-annotations-imgaug",
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: Apache Software License',
