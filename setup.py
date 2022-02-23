@@ -43,6 +43,7 @@ setup(
     entry_points={
         "wai.annotations.plugins": [
             # ISPs
+            "flip=wai.annotations.imgaug.isp.flip.specifier:FlipISPSpecifier",
             "hsl-grayscale=wai.annotations.imgaug.isp.hsl_grayscale.specifier:HSLGrayScaleISPSpecifier",
             "rotate=wai.annotations.imgaug.isp.rotate.specifier:RotateISPSpecifier",
         ]

@@ -2,11 +2,39 @@
 Image augmentation stream processors for the wai.annotations conversion library.
 
 ## Plugins
+### FLIP
+Flips images randomly either left-to-right or up-to-down.
+
+#### Domain(s):
+- **Image Classification Domain, Image Object-Detection Domain**
+
+#### Options:
+
+```
+    FLIP:
+      Flips images randomly either left-to-right or up-to-down.
+
+      Domain(s): Image Classification Domain, Image Object-Detection Domain
+
+      usage: flip [-d DIRECTION] [-s SEED] [-a] [-T THRESHOLD]
+
+      optional arguments:
+        -d DIRECTION, --direction DIRECTION
+                        the direction to flip, available options: lr, up
+        -s SEED, --seed SEED
+                        the seed value to use for the random number generator; randomly seeded if not provided
+        -a, --seed-augmentation
+                        whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from 0 to 1000 for the augmentation.
+        -T THRESHOLD, --threshold THRESHOLD
+                        the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)
+```
+
+
 ### HSL-GRAYSCALE
 Turns RGB images into fake grayscale ones by converting them to HSL and then using the L channel for all channels. The brightness can be influenced and varied even.
 
 #### Domain(s):
-- **Image Domains**
+- **Image Classification Domain, Image Object-Detection Domain**
 
 #### Options:
 
@@ -36,7 +64,7 @@ Turns RGB images into fake grayscale ones by converting them to HSL and then usi
 Rotates images randomly within a range of degrees or by a specified degree. Specify seed value and force augmentation to be seeded to generate repeatable augmentations.
 
 #### Domain(s):
-- **Image Domains**
+- **Image Classification Domain, Image Object-Detection Domain**
 
 #### Options:
 
