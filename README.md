@@ -3,7 +3,7 @@ Image augmentation stream processors for the wai.annotations conversion library.
 
 ## Plugins
 ### FLIP
-Flips images randomly either left-to-right or up-to-down.
+Flips images randomly either left-to-right, up-to-down or both.
 
 #### Domain(s):
 - **Image Classification Domain, Image Object-Detection Domain**
@@ -12,15 +12,15 @@ Flips images randomly either left-to-right or up-to-down.
 
 ```
     FLIP:
-      Flips images randomly either left-to-right or up-to-down.
+      Flips images randomly either left-to-right, up-to-down or both.
 
-      Domain(s): Image Classification Domain, Image Object-Detection Domain
+      Domain(s): Image Object-Detection Domain, Image Classification Domain
 
       usage: flip [-d DIRECTION] [-s SEED] [-a] [-T THRESHOLD]
 
       optional arguments:
         -d DIRECTION, --direction DIRECTION
-                        the direction to flip, available options: lr, up
+                        the direction to flip, available options: lr, up, lrup
         -s SEED, --seed SEED
                         the seed value to use for the random number generator; randomly seeded if not provided
         -a, --seed-augmentation

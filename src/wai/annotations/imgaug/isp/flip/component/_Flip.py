@@ -6,10 +6,12 @@ from wai.annotations.imgaug.isp.base.component import BaseImageAugmentation
 
 LEFT_TO_RIGHT = "lr"
 UP_TO_DOWN = "up"
+LEFT_TO_RIGHT_AND_UP_TO_DOWN = "lrup"
 
 DIRECTIONS = [
     LEFT_TO_RIGHT,
     UP_TO_DOWN,
+    LEFT_TO_RIGHT_AND_UP_TO_DOWN
 ]
 
 
@@ -53,6 +55,11 @@ class Flip(BaseImageAugmentation):
             ])
         elif self.direction == UP_TO_DOWN:
             return iaa.Sequential([
+                iaa.Flipud(),
+            ])
+        elif self.direction == LEFT_TO_RIGHT_AND_UP_TO_DOWN:
+            return iaa.Sequential([
+                iaa.Fliplr(),
                 iaa.Flipud(),
             ])
         else:

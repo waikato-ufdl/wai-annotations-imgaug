@@ -11,7 +11,7 @@ class FlipISPSpecifier(ProcessorStageSpecifier):
     """
     @classmethod
     def description(cls) -> str:
-        return "Flips images randomly either left-to-right or up-to-down."
+        return "Flips images randomly either left-to-right, up-to-down or both."
 
     @classmethod
     def domain_transfer_function(
