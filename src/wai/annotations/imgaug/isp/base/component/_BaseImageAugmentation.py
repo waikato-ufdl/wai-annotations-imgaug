@@ -47,7 +47,7 @@ class BaseImageAugmentation(BaseISP):
 
         # convert annotations
         bboxesoi = None
-        polys = None
+        polysoi = None
         if element.annotations_type() == LocatedObjects:
             has_polys = False
             for obj in element.annotations:
@@ -65,7 +65,6 @@ class BaseImageAugmentation(BaseISP):
                     poly = Polygon(points)
                     polys.append(poly)
                     polysoi = PolygonsOnImage(polys, shape=image.shape)
-                    # TODO use polysoi instead polys?
             else:
                 bboxes = []
                 for obj in element.annotations:
@@ -78,8 +77,8 @@ class BaseImageAugmentation(BaseISP):
         polys_aug = None
         if bboxesoi is not None:
             image_aug, bbs_aug = seq(image=image, bounding_boxes=bboxesoi)
-        elif polys is not None:
-            image_aug, polys_aug = seq(image=image, polygons=polys)
+        elif polysoi is not None:
+            image_aug, polys_aug = seq(image=image, polygons=polysoi)
         else:
             image_aug = seq(image=image)
 
