@@ -86,6 +86,34 @@ Turns RGB images into fake grayscale ones by converting them to HSL and then usi
 ```
 
 
+### LINEAR-CONTRAST
+Applies linear contrast to images.
+
+#### Domain(s):
+- **Image Classification Domain, Image Object-Detection Domain**
+
+#### Options:
+```
+    LINEAR-CONTRAST:
+      Applies linear contrast to images.
+
+      Domain(s): Image Object-Detection Domain, Image Classification Domain
+
+      usage: linear-contrast [-f ALPHA_FROM] [-t ALPHA_TO] [-s SEED] [-a] [-T THRESHOLD]
+
+      optional arguments:
+        -f ALPHA_FROM, --from-alpha ALPHA_FROM
+                        the minimum alpha to apply to the images
+        -t ALPHA_TO, --to-alpha ALPHA_TO
+                        the maximum alpha to apply to the images
+        -s SEED, --seed SEED
+                        the seed value to use for the random number generator; randomly seeded if not provided
+        -a, --seed-augmentation
+                        whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from 0 to 1000 for the augmentation.
+        -T THRESHOLD, --threshold THRESHOLD
+                        the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)
+```
+
 ### ROTATE
 Rotates images randomly within a range of degrees or by a specified degree. Specify seed value and force augmentation to be seeded to generate repeatable augmentations.
 
