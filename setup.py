@@ -49,6 +49,7 @@ setup(
             "hsl-grayscale=wai.annotations.imgaug.isp.hsl_grayscale.specifier:HSLGrayScaleISPSpecifier",
             "linear-contrast=wai.annotations.imgaug.isp.linear_contrast.specifier:LinearContrastISPSpecifier",
             "rotate=wai.annotations.imgaug.isp.rotate.specifier:RotateISPSpecifier",
+            "scale=wai.annotations.imgaug.isp.scale.specifier:ScaleISPSpecifier",
         ]
     }
 )
