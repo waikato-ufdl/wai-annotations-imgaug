@@ -21,10 +21,19 @@ class Crop(BaseImageAugmentation):
         help="the maximum percent to crop from images"
     )
 
-    update_siz: bool = FlagOption(
+    update_size: bool = FlagOption(
         "-u", "--update-size",
         help="whether to update the image size after the crop operation or scale back to original size"
     )
+
+    def _default_suffix(self):
+        """
+        Returns the default suffix to use for images when using "add" rather than "replace" as mode.
+
+        :return: the default suffix
+        :rtype: str
+        """
+        return "-cropped"
 
     def _can_augment(self):
         """

@@ -26,6 +26,15 @@ class Flip(BaseImageAugmentation):
         help="the direction to flip, available options: %s" % (", ".join(DIRECTIONS))
     )
 
+    def _default_suffix(self):
+        """
+        Returns the default suffix to use for images when using "add" rather than "replace" as mode.
+
+        :return: the default suffix
+        :rtype: str
+        """
+        return "-flipped"
+
     def _can_augment(self):
         """
         Checks whether augmentation can take place.

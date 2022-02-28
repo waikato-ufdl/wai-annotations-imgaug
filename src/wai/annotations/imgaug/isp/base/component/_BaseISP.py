@@ -1,3 +1,5 @@
+import os
+
 from random import Random
 from wai.common.cli.options import TypedOption, FlagOption
 from wai.annotations.core.component import ProcessorComponent
@@ -9,6 +11,14 @@ MIN_RAND = 0
 MAX_RAND = 1000
 
 
+IMGAUG_MODE_REPLACE = "replace"
+IMGAUG_MODE_ADD = "add"
+IMGAUG_MODES = [
+    IMGAUG_MODE_REPLACE,
+    IMGAUG_MODE_ADD,
+]
+
+
 class BaseISP(
     RequiresNoFinalisation,
     ProcessorComponent[ImageInstance, ImageInstance]
@@ -16,6 +26,19 @@ class BaseISP(
     """
     Base class for stream processors that augment images.
     """
+
+    imgaug_mode: str = TypedOption(
+        "-m", "--mode",
+        type=str,
+        default=IMGAUG_MODE_REPLACE,
+        help="the image augmentation mode to use, available modes: %s" % ", ".join(IMGAUG_MODES)
+    )
+
+    imgaug_suffix: str = TypedOption(
+        "--suffix",
+        type=str,
+        help="the suffix to use for the file names in case of augmentation mode %s" % IMGAUG_MODE_ADD
+    )
 
     seed: int = TypedOption(
         "-s", "--seed",
@@ -33,6 +56,27 @@ class BaseISP(
         type=float,
         help="the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)"
     )
+
+    def _default_suffix(self):
+        """
+        Returns the default suffix to use for images when using "add" rather than "replace" as mode.
+
+        :return: the default suffix
+        :rtype: str
+        """
+        raise NotImplementedError()
+
+    def _get_suffix(self):
+        """
+        Returns the suffix to use when using imgaug mode "add".
+
+        :return: the suffix to use
+        :rtype: str
+        """
+        if self.imgaug_suffix is None:
+            return self._default_suffix()
+        else:
+            return self.imgaug_suffix
 
     def _can_augment(self):
         """
@@ -85,4 +129,14 @@ class BaseISP(
             aug_seed = None
         element_out = self._augment(element, aug_seed)
 
-        then(element_out)
+        if self.imgaug_mode == IMGAUG_MODE_ADD:
+            then(element)
+            # update filename for additional image
+            # TODO less hacky?
+            parts = os.path.splitext(element_out.data.filename)
+            element_out.data._filename = parts[0] + self._get_suffix() + parts[1]
+            then(element_out)
+        elif self.imgaug_mode == IMGAUG_MODE_REPLACE:
+            then(element_out)
+        else:
+            raise Exception("Unknown augmentation mode: %s" + self.imgaug_mode)

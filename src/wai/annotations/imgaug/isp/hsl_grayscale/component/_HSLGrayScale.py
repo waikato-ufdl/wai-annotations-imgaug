@@ -26,6 +26,15 @@ class HSLGrayScale(BaseISP):
         help="the end of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)"
     )
 
+    def _default_suffix(self):
+        """
+        Returns the default suffix to use for images when using "add" rather than "replace" as mode.
+
+        :return: the default suffix
+        :rtype: str
+        """
+        return "-gray"
+
     def _augment(self, element: ImageInstance, aug_seed: int):
         """
         Augments the image.

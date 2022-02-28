@@ -21,6 +21,15 @@ class GaussianBlur(BaseImageAugmentation):
         help="the maximum sigma for the blur to apply to the images"
     )
 
+    def _default_suffix(self):
+        """
+        Returns the default suffix to use for images when using "add" rather than "replace" as mode.
+
+        :return: the default suffix
+        :rtype: str
+        """
+        return "-blurred"
+
     def _can_augment(self):
         """
         Checks whether augmentation can take place.
