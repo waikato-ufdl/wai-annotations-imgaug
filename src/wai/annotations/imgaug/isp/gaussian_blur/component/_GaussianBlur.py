@@ -9,13 +9,13 @@ class GaussianBlur(BaseImageAugmentation):
     Stream processor which applies gaussian blur to images.
     """
 
-    sigma_from = TypedOption(
+    sigma_from: float = TypedOption(
         "-f", "--from-sigma",
         type=float,
         help="the minimum sigma for the blur to apply to the images"
     )
 
-    sigma_to = TypedOption(
+    sigma_to: float = TypedOption(
         "-t", "--to-sigma",
         type=float,
         help="the maximum sigma for the blur to apply to the images"

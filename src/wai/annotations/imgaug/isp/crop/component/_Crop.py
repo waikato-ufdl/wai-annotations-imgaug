@@ -9,19 +9,19 @@ class Crop(BaseImageAugmentation):
     Stream processor which crops images.
     """
 
-    percent_from = TypedOption(
+    percent_from: float = TypedOption(
         "-f", "--from-percent",
         type=float,
         help="the minimum percent to crop from images"
     )
 
-    percent_to = TypedOption(
+    percent_to: float = TypedOption(
         "-t", "--to-percent",
         type=float,
         help="the maximum percent to crop from images"
     )
 
-    update_size = FlagOption(
+    update_siz: bool = FlagOption(
         "-u", "--update-size",
         help="whether to update the image size after the crop operation or scale back to original size"
     )

@@ -20,7 +20,7 @@ class Flip(BaseImageAugmentation):
     Stream processor which flips images.
     """
 
-    direction = TypedOption(
+    direction: str = TypedOption(
         "-d", "--direction",
         type=str,
         help="the direction to flip, available options: %s" % (", ".join(DIRECTIONS))

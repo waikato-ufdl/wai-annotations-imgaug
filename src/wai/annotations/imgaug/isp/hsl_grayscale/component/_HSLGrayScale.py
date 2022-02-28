@@ -14,13 +14,13 @@ class HSLGrayScale(BaseISP):
     Stream processor which turns RGB images into fake grayscale ones.
     """
 
-    factor_from = TypedOption(
+    factor_from: float = TypedOption(
         "-f", "--from-factor",
         type=float,
         help="the start of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)"
     )
 
-    factor_to = TypedOption(
+    factor_to: float = TypedOption(
         "-t", "--to-factor",
         type=float,
         help="the end of the factor range to apply to the L channel to darken or lighten the image (<1: darker, >1: lighter)"

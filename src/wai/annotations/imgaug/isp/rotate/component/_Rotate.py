@@ -10,13 +10,13 @@ class Rotate(BaseImageAugmentation):
     (negative/positive) or with a specific degree when the to/from degrees are the same.
     """
 
-    degree_from = TypedOption(
+    degree_from: float = TypedOption(
         "-f", "--from-degree",
         type=float,
         help="the start of the degree range to use for rotating the images"
     )
 
-    degree_to = TypedOption(
+    degree_to: float = TypedOption(
         "-t", "--to-degree",
         type=float,
         help="the end of the degree range to use for rotating the images"

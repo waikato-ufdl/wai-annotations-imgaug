@@ -17,18 +17,18 @@ class BaseISP(
     Base class for stream processors that augment images.
     """
 
-    seed = TypedOption(
+    seed: int = TypedOption(
         "-s", "--seed",
         type=int,
         help="the seed value to use for the random number generator; randomly seeded if not provided"
     )
 
-    seed_augmentation = FlagOption(
+    seed_augmentation: bool = FlagOption(
         "-a", "--seed-augmentation",
         help="whether to seed the augmentation; if specified, uses the seeded random generator to produce a seed value from %d to %d for the augmentation." % (MIN_RAND, MAX_RAND)
     )
 
-    threshold = TypedOption(
+    threshold: float = TypedOption(
         "-T", "--threshold",
         type=float,
         help="the threshold to use for Random.rand(): if equal or above, augmentation gets applied; range: 0-1; default: 0 (= always)"

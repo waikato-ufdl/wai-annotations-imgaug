@@ -9,13 +9,13 @@ class LinearContrast(BaseImageAugmentation):
     Stream processor which applies linear contrast to images.
     """
 
-    alpha_from = TypedOption(
+    alpha_from: float = TypedOption(
         "-f", "--from-alpha",
         type=float,
         help="the minimum alpha to apply to the images"
     )
 
-    alpha_to = TypedOption(
+    alpha_to: float = TypedOption(
         "-t", "--to-alpha",
         type=float,
         help="the maximum alpha to apply to the images"
