@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (????-??-??)
+1.0.1 (2022-03-01)
 ------------------
 
 - added more typing hints to parameters
