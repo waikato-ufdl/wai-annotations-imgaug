@@ -2,6 +2,10 @@
 Image augmentation stream processors for the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) 
 conversion library.
 
+The manual is available here:
+
+https://ufdl.cms.waikato.ac.nz/wai-annotations-manual/
+
 ## Plugins
 ### CROP
 Crops images.
