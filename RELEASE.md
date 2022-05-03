@@ -4,6 +4,7 @@ Pypi
 Preparation:
 * increment version in `setup.py`
 * add new changelog section in `CHANGES.rst`
+* add new plugins to `DESCRIPTION.rst`  
 * update plugin section in `README.md`
 * commit/push all changes
 
