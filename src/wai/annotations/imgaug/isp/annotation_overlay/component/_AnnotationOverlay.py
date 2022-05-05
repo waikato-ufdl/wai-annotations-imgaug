@@ -261,11 +261,11 @@ class AnnotationOverlay(
     Stream processor which adds object detections overlays to images.
     """
 
-    labels: float = TypedOption(
+    labels: str = TypedOption(
         "--labels",
         type=str,
         default="",
-        help="the blank-separated list of labels of annotations to overlay, leave empty to overlay all"
+        help="the comma-separated list of labels of annotations to overlay, leave empty to overlay all"
     )
 
     label_key: str = TypedOption(
@@ -375,6 +375,9 @@ class AnnotationOverlay(
         self._default_colors_index = 0
         self._font = self._load_font(self.font_family, self.font_size)
         self._text_vertical, self._text_horizontal = self.text_placement.upper().split(",")
+        self._accepted_labels = None
+        if len(self.labels) > 0:
+            self._accepted_labels = set(self.labels.split(","))
 
     def _next_default_color(self):
         """
@@ -498,12 +501,16 @@ class AnnotationOverlay(
         draw = ImageDraw.Draw(overlay)
         for i, lobj in enumerate(element.annotations):
             # determine label/color
+            label = "object"
+            if self.label_key in lobj.metadata:
+                label = lobj.metadata[self.label_key]
+            if self._accepted_labels is not None:
+                if label not in self._accepted_labels:
+                    continue
             if self.vary_colors:
-                label = "object-%d" % i
+                color_label = "object-%d" % i
             else:
-                label = "object"
-                if self.label_key in lobj.metadata:
-                    label = lobj.metadata[self.label_key]
+                color_label = label
 
             # assemble polygon
             points = []
@@ -519,17 +526,17 @@ class AnnotationOverlay(
                 points.append((rect.right(), rect.bottom()))
                 points.append((rect.left(), rect.bottom()))
             if self.fill:
-                draw.polygon(tuple(points), outline=self._get_outline_color(label), fill=self._get_fill_color(label), width=self.outline_thickness)
+                draw.polygon(tuple(points), outline=self._get_outline_color(color_label), fill=self._get_fill_color(color_label), width=self.outline_thickness)
             else:
-                draw.polygon(tuple(points), outline=self._get_outline_color(label), width=self.outline_thickness)
+                draw.polygon(tuple(points), outline=self._get_outline_color(color_label), width=self.outline_thickness)
 
             # output text
             if len(self.text_format) > 0:
                 text = self._expand_label(label, lobj.metadata)
                 rect = lobj.get_rectangle()
                 x, y, w, h = self._text_coords(draw, text, rect)
-                draw.rectangle((x, y, x+w, y+h), fill=self._get_outline_color(label))
-                draw.text((x, y), text, font=self._font, fill=text_color(self._get_color(label)))
+                draw.rectangle((x, y, x+w, y+h), fill=self._get_outline_color(color_label))
+                draw.text((x, y), text, font=self._font, fill=text_color(self._get_color(color_label)))
 
         img_pil.paste(overlay, (0, 0), mask=overlay)
 
