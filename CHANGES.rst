@@ -4,6 +4,7 @@ Changelog
 1.0.4 (????-??-??)
 ------------------
 
+- Fixed error message of AnnotationOverlay in case data of wrong domain is coming through
 - ...
 
 

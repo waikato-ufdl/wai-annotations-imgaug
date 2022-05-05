@@ -23,7 +23,7 @@ class AnnotationOverlayISPSpecifier(ProcessorStageSpecifier):
             return input_domain
         else:
             raise Exception(
-                f"Crop only handles the following domains: "
+                f"AnnotationOverlay only handles the following domains: "
                 f"{ImageObjectDetectionDomainSpecifier.name()}"
             )
 
