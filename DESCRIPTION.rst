@@ -1,5 +1,6 @@
 Inline stream processors for image augmentation:
 
+* `add-annotation-overlay-od`: adds object detection overlays to images
 * `crop`: crops images
 * `flip`: flips images either left-to-right, up-to-down or both
 * `gaussian-blur`: applies gaussian blur to images

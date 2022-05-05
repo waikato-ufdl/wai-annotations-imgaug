@@ -33,16 +33,18 @@ setup(
         "wai",
         "wai.annotations",
     ],
-    version="1.0.1",
+    version="1.0.2",
     author='Peter Reutemann',
     author_email='fracpete@waikato.ac.nz',
     install_requires=[
         "wai.annotations.core>=0.1.1",
         "imgaug>=0.4.0",
+        "matplotlib",
     ],
     entry_points={
         "wai.annotations.plugins": [
             # ISPs
+            "add-annotation-overlay-od=wai.annotations.imgaug.isp.annotation_overlay.specifier:AnnotationOverlayISPSpecifier",
             "crop=wai.annotations.imgaug.isp.crop.specifier:CropISPSpecifier",
             "flip=wai.annotations.imgaug.isp.flip.specifier:FlipISPSpecifier",
             "gaussian-blur=wai.annotations.imgaug.isp.gaussian_blur.specifier:GaussianBlurISPSpecifier",
