@@ -28,7 +28,7 @@ optional arguments:
   --force-bbox          whether to force a bounding box even if there is a polygon available
   --label-key LABEL_KEY
                         the key in the meta-data that contains the label.
-  --labels LABELS       the blank-separated list of labels of annotations to overlay, leave empty to overlay all
+  --labels LABELS       the comma-separated list of labels of annotations to overlay, leave empty to overlay all
   --num-decimals NUM_DECIMALS
                         the number of decimals to use for float numbers in the text format string.
   --outline-alpha OUTLINE_ALPHA

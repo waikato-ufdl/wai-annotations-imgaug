@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.0.3 (????-??-??)
+1.0.3 (2022-05-05)
 ------------------
 
-- ...
+- `--labels` option of the `add-annotation-overlay-od` plugin gets respected now,
+  also using correct label for text now (when varying the colors)
 
 
 1.0.2 (2022-05-05)
