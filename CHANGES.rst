@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.0.3 (????-??-??)
+------------------
+
+- ...
+
+
+1.0.2 (2022-05-05)
+------------------
+
+- added `add-annotation-overlay-od` plugin to overlay the object detections on the images
+
+
 1.0.1 (2022-03-01)
 ------------------
 
