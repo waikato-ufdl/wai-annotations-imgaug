@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Fixed error message of AnnotationOverlay in case data of wrong domain is coming through
+- Moved AnnotationOverlay into wai.annotations.imgvis module
 - ...
 
 
