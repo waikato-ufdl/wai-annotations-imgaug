@@ -1,12 +1,11 @@
 Changelog
 =========
 
-1.0.4 (????-??-??)
+1.0.4 (2022-05-12)
 ------------------
 
 - Fixed error message of AnnotationOverlay in case data of wrong domain is coming through
 - Moved AnnotationOverlay into wai.annotations.imgvis module
-- ...
 
 
 1.0.3 (2022-05-05)
