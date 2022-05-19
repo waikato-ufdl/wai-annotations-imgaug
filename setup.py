@@ -40,6 +40,7 @@ setup(
         "wai.annotations.core>=0.1.1",
         "imgaug>=0.4.0",
         "matplotlib",
+        "Shapely",
     ],
     entry_points={
         "wai.annotations.plugins": [
@@ -51,6 +52,7 @@ setup(
             "linear-contrast=wai.annotations.imgaug.isp.linear_contrast.specifier:LinearContrastISPSpecifier",
             "rotate=wai.annotations.imgaug.isp.rotate.specifier:RotateISPSpecifier",
             "scale=wai.annotations.imgaug.isp.scale.specifier:ScaleISPSpecifier",
+            "sub-images=wai.annotations.imgaug.isp.sub_images.specifier:SubImagesISPSpecifier",
         ]
     }
 )

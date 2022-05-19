@@ -7,3 +7,4 @@ Inline stream processors for image augmentation:
 * `linear-contrast`: applies linear contrast to images
 * `rotate`: rotates images by a specified degree (0-360) or randomly within degree range
 * `scale`: scales images by a specified percentage (0-1) or randomly within percentage range
+* `sub-images`: extracts regions (incl annotations) from images using user-defined bounding boxes

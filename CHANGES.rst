@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0.5 (????-??-??)
+------------------
+
+- Added `sub-images` plugin for extracting regions (including their annotations) based on
+  one or more bounding box definitions from the images coming through and only forwarding
+  these sub-images
+
+
 1.0.4 (2022-05-12)
 ------------------
 

@@ -236,3 +236,21 @@ Scales images randomly within a range of percentages or by a specified percentag
         -u, --update-size
                         whether to update the image size after the scaling operation or use original size
 ```
+
+### SUB-IMAGES
+Extracts sub-images (incl their annotations) from the images coming through, using the defined regions.
+
+#### Domain(s):
+- **Image Classification Domain**
+- **Image Object-Detection Domain**
+
+#### Options:
+```
+usage: sub-images [-p] [-r REGIONS [REGIONS ...]]
+
+optional arguments:
+  -p, --include-partial
+                        whether to include only annotations that fit fully into a region or also partial ones (default: False)
+  -r REGIONS [REGIONS ...], --regions REGIONS [REGIONS ...]
+                        the regions (X,Y,WIDTH,HEIGHT) to crop and forward with their annotations (default: [])
+```
