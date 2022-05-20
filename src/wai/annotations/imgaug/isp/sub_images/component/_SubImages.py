@@ -55,6 +55,11 @@ class SubImages(
         help="whether to include only annotations that fit fully into a region or also partial ones"
     )
 
+    skip_empty: bool = FlagOption(
+        "-e", "--suppress-empty",
+        help="suppresses sub-images that have no annotations (object detection)"
+    )
+
     def _initialize(self):
         """
         Parses options.
@@ -92,7 +97,8 @@ class SubImages(
         :rtype: str
         """
         parts = os.path.splitext(filename)
-        return parts[0] + "-%d" % index + parts[1]
+        pattern = "-%0" + str(len(str(len(self._region_lobjs)))) + "d"
+        return parts[0] + pattern % index + parts[1]
 
     def _bbox_to_shapely(self, lobj: LocatedObject) -> Polygon:
         """
@@ -204,8 +210,9 @@ class SubImages(
                     ratio = region_lobj.overlap_ratio(ann_lobj)
                     if ((ratio > 0) and self.include_partial) or (ratio >= 1):
                         new_objects.append(self._fit_annotation(region_index, region_lobj, ann_lobj))
-                new_element = ImageObjectDetectionInstance(data=img_out, annotations=LocatedObjects(new_objects))
-                then(new_element)
+                if not self.skip_empty or (len(new_objects) > 0):
+                    new_element = ImageObjectDetectionInstance(data=img_out, annotations=LocatedObjects(new_objects))
+                    then(new_element)
             else:
                 self.logger.warning("Unhandled data (%s), skipping!" % str(type(element)))
                 then(element)
