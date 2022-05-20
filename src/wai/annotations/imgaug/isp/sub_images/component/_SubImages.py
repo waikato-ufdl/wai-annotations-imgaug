@@ -18,6 +18,16 @@ from wai.annotations.core.stream import ThenFunction, DoneFunction
 from wai.annotations.core.stream.util import RequiresNoFinalisation
 
 
+REGION_SORTING_NONE = "none"
+REGION_SORTING_XY = "x-then-y"
+REGION_SORTING_YX = "y-then-x"
+REGION_SORTING = [
+    REGION_SORTING_NONE,
+    REGION_SORTING_XY,
+    REGION_SORTING_YX,
+]
+
+
 class SubImages(
     RequiresNoFinalisation,
     ProcessorComponent[ImageInstance, ImageInstance]
@@ -31,6 +41,13 @@ class SubImages(
         type=str,
         nargs="+",
         help="the regions (X,Y,WIDTH,HEIGHT) to crop and forward with their annotations"
+    )
+
+    region_sorting: str = TypedOption(
+        "-s", "--region-sorting",
+        type=str,
+        default=REGION_SORTING_NONE,
+        help="how to sort the supplied region definitions: %s" % "|".join(REGION_SORTING)
     )
 
     include_partial: bool = FlagOption(
@@ -48,8 +65,20 @@ class SubImages(
             coords = [int(x) for x in region.split(",")]
             if len(coords) == 4:
                 x, y, w, h = coords
-                self._regions_xyxy.append((x, y, x + w - 1, y + h - 1))
                 self._region_lobjs.append(LocatedObject(x=x, y=y, width=w, height=h))
+        if self.region_sorting is not REGION_SORTING_NONE:
+            if self.region_sorting == REGION_SORTING_XY:
+                def sorting(obj: LocatedObject):
+                    return "%06d %06d" % (obj.x, obj.y)
+            elif self.region_sorting == REGION_SORTING_YX:
+                def sorting(obj: LocatedObject):
+                    return "%06d %06d" % (obj.y, obj.x)
+            else:
+                raise Exception("Unhandled region sorting: %s" % self.region_sorting)
+            self._region_lobjs.sort(key=sorting)
+
+        for lobj in self._region_lobjs:
+            self._regions_xyxy.append((lobj.x, lobj.y, lobj.x + lobj.width - 1, lobj.y + lobj.height - 1))
 
     def _new_filename(self, filename, index):
         """
@@ -98,10 +127,11 @@ class SubImages(
         coords.append((x_list[0], y_list[0]))
         return Polygon(coords)
 
-    def _fit_annotation(self, region: LocatedObject, annotation: LocatedObject) -> LocatedObject:
+    def _fit_annotation(self, index: int, region: LocatedObject, annotation: LocatedObject) -> LocatedObject:
         """
         Fits the annotation into the specified region, adjusts size if necessary.
 
+        :param index: the index of the region
         :param region: the region to fit the annotation in
         :param annotation: the annotation to fit
         :return: the adjust annotation
@@ -111,6 +141,8 @@ class SubImages(
         sintersect = sbbox.intersection(sregion)
         minx, miny, maxx, maxy = [int(x) for x in sintersect.bounds]
         result = LocatedObject(x=minx-region.x, y=miny-region.y, width=maxx-minx+1, height=maxy-miny+1, **annotation.metadata)
+        result.metadata["region_index"] = index
+        result.metadata["region_xywh"] = "%d,%d,%d,%d" % (region.x, region.y, region.width, region.height)
 
         if annotation.has_polygon():
             spolygon = self._polygon_to_shapely(annotation)
@@ -154,14 +186,14 @@ class SubImages(
         img_in = element.data
 
         pil_image = img_in.pil_image
-        for index, region_xyxy in enumerate(self._regions_xyxy):
+        for region_index, region_xyxy in enumerate(self._regions_xyxy):
             # crop image
             sub_image = pil_image.crop(region_xyxy)
             pil_img_bytes = io.BytesIO()
             sub_image.save(pil_img_bytes, format=img_in.format.pil_format_string)
-            img_out = Image(self._new_filename(img_in.filename, index), pil_img_bytes.getvalue(), img_in.format, img_in.size)
+            img_out = Image(self._new_filename(img_in.filename, region_index), pil_img_bytes.getvalue(), img_in.format, img_in.size)
             # crop annotations and forward
-            region_lobj = self._region_lobjs[index]
+            region_lobj = self._region_lobjs[region_index]
             if isinstance(element, ImageClassificationInstance):
                 annotations = Classification(label=element.annotations.label)
                 new_element = ImageClassificationInstance(data=img_out, annotations=annotations)
@@ -171,7 +203,7 @@ class SubImages(
                 for ann_lobj in element.annotations:
                     ratio = region_lobj.overlap_ratio(ann_lobj)
                     if ((ratio > 0) and self.include_partial) or (ratio >= 1):
-                        new_objects.append(self._fit_annotation(region_lobj, ann_lobj))
+                        new_objects.append(self._fit_annotation(region_index, region_lobj, ann_lobj))
                 new_element = ImageObjectDetectionInstance(data=img_out, annotations=LocatedObjects(new_objects))
                 then(new_element)
             else:

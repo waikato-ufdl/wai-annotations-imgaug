@@ -246,11 +246,13 @@ Extracts sub-images (incl their annotations) from the images coming through, usi
 
 #### Options:
 ```
-usage: sub-images [-p] [-r REGIONS [REGIONS ...]]
+usage: sub-images [-p] [-s REGION_SORTING] [-r REGIONS [REGIONS ...]]
 
 optional arguments:
   -p, --include-partial
                         whether to include only annotations that fit fully into a region or also partial ones (default: False)
+  -s REGION_SORTING, --region-sorting REGION_SORTING
+                        how to sort the supplied region definitions: none|x-then-y|y-then-x (default: none)
   -r REGIONS [REGIONS ...], --regions REGIONS [REGIONS ...]
                         the regions (X,Y,WIDTH,HEIGHT) to crop and forward with their annotations (default: [])
 ```
