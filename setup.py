@@ -33,7 +33,7 @@ setup(
         "wai",
         "wai.annotations",
     ],
-    version="1.0.4",
+    version="1.0.5",
     author='Peter Reutemann',
     author_email='fracpete@waikato.ac.nz',
     install_requires=[

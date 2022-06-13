@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.5 (????-??-??)
+1.0.5 (2022-06-13)
 ------------------
 
 - Added `sub-images` plugin for extracting regions (including their annotations) based on
