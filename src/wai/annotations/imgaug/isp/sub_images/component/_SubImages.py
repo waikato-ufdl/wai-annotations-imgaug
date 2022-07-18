@@ -152,34 +152,31 @@ class SubImages(
 
         if annotation.has_polygon():
             spolygon = self._polygon_to_shapely(annotation)
-        else:
-            spolygon = self._bbox_to_shapely(annotation)
+            try:
+                sintersect = spolygon.intersection(sregion)
+            except:
+                self.logger.warning("Failed to compute intersection!")
+                sintersect = None
 
-        try:
-            sintersect = spolygon.intersection(sregion)
-        except:
-            self.logger.warning("Failed to compute intersection!")
-            sintersect = None
+            if isinstance(sintersect, GeometryCollection):
+                for x in sintersect.geoms:
+                    if isinstance(x, Polygon):
+                        sintersect = x
+                        break
+            elif isinstance(sintersect, MultiPolygon):
+                for x in sintersect.geoms:
+                    if isinstance(x, Polygon):
+                        sintersect = x
+                        break
 
-        if isinstance(sintersect, GeometryCollection):
-            for x in sintersect.geoms:
-                if isinstance(x, Polygon):
-                    sintersect = x
-                    break
-        elif isinstance(sintersect, MultiPolygon):
-            for x in sintersect.geoms:
-                if isinstance(x, Polygon):
-                    sintersect = x
-                    break
-
-        if isinstance(sintersect, Polygon):
-            x_list, y_list = sintersect.exterior.coords.xy
-            points = []
-            for i in range(len(x_list)):
-                points.append(WaiPoint(x=x_list[i]-region.x, y=y_list[i]-region.y))
-            result.set_polygon(WaiPolygon(*points))
-        else:
-            self.logger.warning("Unhandled geometry type returned from intersection, skipping: %s" % str(type(sintersect)))
+            if isinstance(sintersect, Polygon):
+                x_list, y_list = sintersect.exterior.coords.xy
+                points = []
+                for i in range(len(x_list)):
+                    points.append(WaiPoint(x=x_list[i]-region.x, y=y_list[i]-region.y))
+                result.set_polygon(WaiPolygon(*points))
+            else:
+                self.logger.warning("Unhandled geometry type returned from intersection, skipping: %s" % str(type(sintersect)))
 
         return result
 
