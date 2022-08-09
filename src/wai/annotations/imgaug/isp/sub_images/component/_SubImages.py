@@ -78,7 +78,7 @@ class SubImages(
                 self._region_lobjs.append(LocatedObject(x=x, y=y, width=w, height=h))
 
         if self.verbose:
-            self.logger.info("unsorted regions: %s" % str(self._region_lobjs))
+            self.logger.info("unsorted regions: %s" % str([str(x) for x in self._region_lobjs]))
 
         if self.region_sorting is not REGION_SORTING_NONE:
             if self.region_sorting == REGION_SORTING_XY:
@@ -91,7 +91,7 @@ class SubImages(
                 raise Exception("Unhandled region sorting: %s" % self.region_sorting)
             self._region_lobjs.sort(key=sorting)
             if self.verbose:
-                self.logger.info("sorted regions: %s" % str(self._region_lobjs))
+                self.logger.info("sorted regions: %s" % str([str(x) for x in self._region_lobjs]))
 
         for lobj in self._region_lobjs:
             self._regions_xyxy.append((lobj.x, lobj.y, lobj.x + lobj.width - 1, lobj.y + lobj.height - 1))
