@@ -95,8 +95,8 @@ class SubImages(
 
         for lobj in self._region_lobjs:
             self._regions_xyxy.append((lobj.x, lobj.y, lobj.x + lobj.width - 1, lobj.y + lobj.height - 1))
-            if self.verbose:
-                self.logger.info("sorted xyxy: %s" % str(self._regions_xyxy))
+        if self.verbose:
+            self.logger.info("sorted xyxy: %s" % str(self._regions_xyxy))
 
     def _new_filename(self, filename, index):
         """
