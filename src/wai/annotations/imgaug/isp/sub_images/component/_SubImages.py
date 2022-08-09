@@ -202,7 +202,7 @@ class SubImages(
             then: ThenFunction[ImageInstance],
             done: DoneFunction
     ):
-        if not hasattr(self, "_regions"):
+        if not hasattr(self, "_regions_xyxy"):
             self._initialize()
 
         img_in = element.data
