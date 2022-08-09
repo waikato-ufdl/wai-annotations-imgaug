@@ -209,6 +209,8 @@ class SubImages(
 
         pil_image = img_in.pil_image
         for region_index, region_xyxy in enumerate(self._regions_xyxy):
+            if self.verbose:
+                self.logger.info("Applying region %d :%s" % (region_index, str(region_xyxy)))
             # crop image
             sub_image = pil_image.crop(region_xyxy)
             pil_img_bytes = io.BytesIO()
