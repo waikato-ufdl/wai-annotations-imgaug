@@ -60,6 +60,11 @@ class SubImages(
         help="suppresses sub-images that have no annotations (object detection)"
     )
 
+    verbose: bool = FlagOption(
+        "--verbose",
+        help="for outputting debugging information"
+    )
+
     def _initialize(self):
         """
         Parses options.
@@ -71,6 +76,10 @@ class SubImages(
             if len(coords) == 4:
                 x, y, w, h = coords
                 self._region_lobjs.append(LocatedObject(x=x, y=y, width=w, height=h))
+
+        if self.verbose:
+            self.logger.info("unsorted regions: %s" % str(self._region_lobjs))
+
         if self.region_sorting is not REGION_SORTING_NONE:
             if self.region_sorting == REGION_SORTING_XY:
                 def sorting(obj: LocatedObject):
@@ -81,9 +90,13 @@ class SubImages(
             else:
                 raise Exception("Unhandled region sorting: %s" % self.region_sorting)
             self._region_lobjs.sort(key=sorting)
+            if self.verbose:
+                self.logger.info("sorted regions: %s" % str(self._region_lobjs))
 
         for lobj in self._region_lobjs:
             self._regions_xyxy.append((lobj.x, lobj.y, lobj.x + lobj.width - 1, lobj.y + lobj.height - 1))
+            if self.verbose:
+                self.logger.info("sorted xyxy: %s" % str(self._regions_xyxy))
 
     def _new_filename(self, filename, index):
         """
@@ -152,31 +165,34 @@ class SubImages(
 
         if annotation.has_polygon():
             spolygon = self._polygon_to_shapely(annotation)
-            try:
-                sintersect = spolygon.intersection(sregion)
-            except:
-                self.logger.warning("Failed to compute intersection!")
-                sintersect = None
+        else:
+            spolygon = self._bbox_to_shapely(annotation)
 
-            if isinstance(sintersect, GeometryCollection):
-                for x in sintersect.geoms:
-                    if isinstance(x, Polygon):
-                        sintersect = x
-                        break
-            elif isinstance(sintersect, MultiPolygon):
-                for x in sintersect.geoms:
-                    if isinstance(x, Polygon):
-                        sintersect = x
-                        break
+        try:
+            sintersect = spolygon.intersection(sregion)
+        except:
+            self.logger.warning("Failed to compute intersection!")
+            sintersect = None
 
-            if isinstance(sintersect, Polygon):
-                x_list, y_list = sintersect.exterior.coords.xy
-                points = []
-                for i in range(len(x_list)):
-                    points.append(WaiPoint(x=x_list[i]-region.x, y=y_list[i]-region.y))
-                result.set_polygon(WaiPolygon(*points))
-            else:
-                self.logger.warning("Unhandled geometry type returned from intersection, skipping: %s" % str(type(sintersect)))
+        if isinstance(sintersect, GeometryCollection):
+            for x in sintersect.geoms:
+                if isinstance(x, Polygon):
+                    sintersect = x
+                    break
+        elif isinstance(sintersect, MultiPolygon):
+            for x in sintersect.geoms:
+                if isinstance(x, Polygon):
+                    sintersect = x
+                    break
+
+        if isinstance(sintersect, Polygon):
+            x_list, y_list = sintersect.exterior.coords.xy
+            points = []
+            for i in range(len(x_list)):
+                points.append(WaiPoint(x=x_list[i]-region.x, y=y_list[i]-region.y))
+            result.set_polygon(WaiPolygon(*points))
+        else:
+            self.logger.warning("Unhandled geometry type returned from intersection, skipping: %s" % str(type(sintersect)))
 
         return result
 
