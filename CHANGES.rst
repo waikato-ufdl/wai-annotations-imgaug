@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.6 (????-??-??)
+1.0.6 (2022-09-05)
 ------------------
 
 - `sub-images` plugin now has a `--verbose` flag; only initializes the regions now once
