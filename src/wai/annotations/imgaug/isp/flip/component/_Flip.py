@@ -5,8 +5,8 @@ from wai.annotations.imgaug.isp.base.component import BaseImageAugmentation
 
 
 LEFT_TO_RIGHT = "lr"
-UP_TO_DOWN = "up"
-LEFT_TO_RIGHT_AND_UP_TO_DOWN = "lrup"
+UP_TO_DOWN = "ud"
+LEFT_TO_RIGHT_AND_UP_TO_DOWN = "lrud"
 
 DIRECTIONS = [
     LEFT_TO_RIGHT,

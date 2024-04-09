@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0.7 (????-??-??)
+------------------
+
+- fixed typo in directions used by `flip`: `ud` instead `up` and `lrud` instead of `lrup`
+
+
 1.0.6 (2022-09-05)
 ------------------
 

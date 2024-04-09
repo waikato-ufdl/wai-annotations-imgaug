@@ -58,7 +58,7 @@ Flips images either left-to-right, up-to-down or both.
 
       optional arguments:
         -d DIRECTION, --direction DIRECTION
-                        the direction to flip, available options: lr, up, lrup
+                        the direction to flip, available options: lr, ud, lrud
         -m IMGAUG_MODE, --mode IMGAUG_MODE
                         the image augmentation mode to use, available modes: replace, add
         --suffix IMGAUG_SUFFIX
